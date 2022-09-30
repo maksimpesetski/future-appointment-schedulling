@@ -1,4 +1,10 @@
 
+.PHONY: local-deps
+local-deps:
+	docker-compose  up
+
+#-f ./dev/docker-compose.yml
+
 .PHONY: clean-build
 clean-build:
 	@rm -rf ${SERVICE_NAME}

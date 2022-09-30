@@ -6,18 +6,9 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/maksimpesetski/future-appointment-schedulling/internal/service"
+	"github.com/maksimpesetski/future-appointment-schedulling/internal/storage"
 )
 
-/*
- I built this service assuming that trainer has already added his/her availability to DB, meaning that it's guaranteed
- we have the most up-to-date available appointments at the time of incoming request.
-
-Areas of improvement:
- - logging
- - routing middleware that checks if url "trainer_id" is valid
- - separate  appointment validation logic into internal "business_logic" pkg
-
-*/
 func main() {
 
 	logger, err := zap.NewDevelopment()
@@ -25,8 +16,19 @@ func main() {
 		log.Fatalf("unable to initialize logger: %v", err)
 	}
 
+	// init DB
+	processor, err := storage.NewDBProcessor()
+	if err != nil {
+		logger.Fatal("unable to open DB connection", zap.Error(err))
+	}
+	err = processor.Ping()
+	if err != nil {
+		logger.Fatal("unable to ping DB", zap.Error(err))
+	}
+	defer processor.Close()
+
 	// server
-	s, err := service.NewService(logger)
+	s, err := service.NewService(logger, processor)
 	if err != nil {
 		logger.Fatal("unable create service instance", zap.Error(err))
 	}
