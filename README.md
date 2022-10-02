@@ -8,6 +8,7 @@ we have the most up-to-date available/booked appointments at the time of incomin
 Areas of improvement:
 - logging
 - openAPI
+- configuration files that hold service configs e.g. DB connection string or service host
 - routing middleware that checks if url `trainer_id` is valid
 - separate appointment validation logic into internal "business_logic" pkg
 - API that allows trainers to create available time slots for the week
@@ -15,24 +16,10 @@ Areas of improvement:
 
 ## Usage
 
-### Build Go Binary
-
-```sh
-make build
-```
-
 ### Run service locally
 
 ```sh
-make local-service
-```
-
-### Run local database(PostgresSQL)
-
-This will also seed the database with trainers, customers, and appointments.
-
-```sh
-make local-deps
+make run-service
 ```
 
 ### Endpoints

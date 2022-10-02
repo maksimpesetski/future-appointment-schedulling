@@ -20,7 +20,7 @@ type processor struct {
 
 // NewDBProcessor creates a new db client wrapper to query sql database
 func NewDBProcessor() (DBProcessor, error) {
-	db, err := newSQLConnection("postgres://postgres:postgres@localhost:5432/postgres?connect_timeout=10&sslmode=disable")
+	db, err := newSQLConnection("postgres://postgres:postgres@db:5432/postgres?connect_timeout=10&sslmode=disable")
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,15 @@
-version: '3.7'
+version: '3.8'
 services:
-  postgres:
-    image: postgres:10.5
+  app:
+    build:
+      context: .
+    depends_on:
+      - db
+    restart: on-failure
+    ports:
+      - "8080:8080"
+  db:
+    image: postgres:11-alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres
